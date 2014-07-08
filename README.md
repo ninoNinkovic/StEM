@@ -20,3 +20,21 @@ Some CTL scripts from: https://github.com/quantizationbit/CTLs
 ctlrender and it's requirements
 x265 compiled for high bit depth
 mpv player or other ways to play encodings
+
+Reccommended directory structure:
+
+$EDRHOME : base directory for all projects, contains folders for utilities and further testing
+
+$EDRDATA = $EDRHOME/EDRDATA : base directory for testing
+
+$EDRHOME/ACES : base directory for AMPAS ctlrender builds, IlmLib, OpenEXR and CTL scripts
+
+$EDRHOME/DCP : base directory for DCP testing
+
+$EDRHOME/FF : base directory for FFMPEG builds (if needed).
+
+$EDRHOME/HEVC : base directory for HM and x265
+
+$EDRHOME/Tools : base directory for tools and other code (YUV, pattern, tifcmp, sigma_compare etc..)
+
+
