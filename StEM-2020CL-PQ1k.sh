@@ -57,8 +57,9 @@ done
 
 
 for filename in StEM-2020PQ1k/Xp*tiff ; do
-
-  $EDRHOME/Tools/YUV/tif2yuv $filename B10 2020C HD1920 G1k
+  # 2020C and G1k go together as gamma is needed to 
+  # be known for Constant Luminance processing. 
+  $EDRHOME/Tools/YUV/tif2yuv $filename B10 2020C G1k HD1920
   
   
 done
@@ -66,10 +67,14 @@ done
 mv YDzDx.yuv 2020CL-PQ1k-10b.yuv
 ls -l *yuv
 
+
+# Basic verification of yuv processing step
+# will skip when doing full run with 
+# next scripts that perform encoding and final sigma_compare
 rm -rfv logCL
 mkdir logCL
 mkdir tifXYZ
-rm -rf 2020CL-PQ1k-10b-YUVRT
+rm -rfv 2020CL-PQ1k-10b-YUVRT
 $EDRHOME/Tools/YUV/yuv2tif 2020CL-PQ1k-10b.yuv B10 2020C G1k HD1920 -f 5 -I
 mv tifXYZ 2020CL-PQ1k-10b-YUVRT
 
@@ -85,14 +90,24 @@ for filename in 2020CL-PQ1k-10b-YUVRT/Xp*tif ; do
 	# write EXR file from YUV
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   $filename -format exr16 tmpRTYUV.exr
-	   
+	   $filename -format exr16 tmpRTYUVasXYZ.exr
+	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
+	   -ctl $EDRHOME/ACES/CTL/XYZ-2-2020.ctl \
+	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
+	   $filename -format exr16 tmpRTYUV.exr	   
+	# write EXR file from PQ 444 Input to YUV   
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   StEM-2020PQ1k/$cFile".tiff" -format exr16 tmp444.exr	   
-	# self compare YUV to YUV
+	   StEM-2020PQ1k/$cFile".tiff" -format exr16 tmp444asXYZ.exr	   
+	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
+	   -ctl $EDRHOME/ACES/CTL/XYZ-2-2020.ctl \
+	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
+	   StEM-2020PQ1k/$cFile".tiff" -format exr16 tmp444.exr	 	   
+	# sigma compare 444 to YUV as XYZ and as RGB 2020
+	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp444asXYZ.exr tmpRTYUVasXYZ.exr\
+	    2>&1 > logCL/$cFile"-444-RTYUV-asXYZ.txt"  
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp444.exr tmpRTYUV.exr\
-	    2>&1 > logCL/$cFile"-RTYUV.txt"  
+	    2>&1 > logCL/$cFile"-444-RTYUV-as2020RGB.txt" 
   
 done
 
