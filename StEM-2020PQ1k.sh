@@ -27,7 +27,7 @@ for filename in PQ/StEM*XYZ/000[1][1][9].tif ; do
  
 if [ $c1 -le $CMax ]; then
 
-
+# !!! Make sure to comment this in or out if need to create these files
 
 #(ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ10k-2-XYZ.ctl -ctl $EDRHOME/ACES/CTL/XYZ2ACES.ctl\
 #     -ctl $EDRHOME/ACES/CTL/odt_PQ1k2020.ctl $filename  -format tiff16 #"StEM-2020PQ1k/XpYpZp"$numStr".tiff" ) &
