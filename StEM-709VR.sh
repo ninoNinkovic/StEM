@@ -12,7 +12,8 @@ CMax=3
 num=0
 rm -fv YDzDx.yuv
 
-for filename in PQ/StEM*XYZ/000[0-1][0-1][0-9].tif ; do
+for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
+
 
  # file name w/extension e.g. 000111.tiff
  cFile="${filename##*/}"
