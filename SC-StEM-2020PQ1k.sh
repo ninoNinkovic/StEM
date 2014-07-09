@@ -72,7 +72,6 @@ for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 #for filename in StEM-2020PQ1k-RTYUV/* ; do
 
     numStr=`printf "%06d" $num`
-    numStr5=`printf "%05d" $num`
     num=`expr $num + 1`
     
     # write EXR from source
@@ -85,7 +84,7 @@ for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 	# write EXR file from YUV
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   StEM-2020PQ1k-RTYUV/XpYpZp$numStr5".tif" -format exr16 tmpRTYUV.exr
+	   StEM-2020PQ1k-RTYUV/XpYpZp$numStr".tif" -format exr16 tmpRTYUV.exr
 	# self compare YUV to YUV
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmpRTYUV.exr tmpRTYUV.exr\
 	    2>&1 > log/self$numStr"-RTYUV.txt"
@@ -93,7 +92,7 @@ for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 	# for 2020CL
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   StEM-2020CLPQ1k-RTYUV/XpYpZp$numStr5".tif" -format exr16 tmpRTYUVCL.exr
+	   StEM-2020CLPQ1k-RTYUV/XpYpZp$numStr".tif" -format exr16 tmpRTYUVCL.exr
 	# self compare YUV to YUV
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmpRTYUVCL.exr tmpRTYUVCL.exr\
 	    2>&1 > log/self$numStr"-RTYUVCL.txt"
@@ -110,7 +109,7 @@ for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 	# write EXR file from HEVC
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   StEM-2020PQ1k-PQ1kHEVC/XpYpZp$numStr5".tif" -format exr16 tmpHEVC.exr
+	   StEM-2020PQ1k-PQ1kHEVC/XpYpZp$numStr".tif" -format exr16 tmpHEVC.exr
 	# self compare HEVC to HEVC
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmpHEVC.exr tmpHEVC.exr\
 	    2>&1 > log/self$numStr"-HEVC.txt"
@@ -121,7 +120,7 @@ for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 	# for 2020CL    
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   StEM-2020CLPQ1k-PQ1kHEVC/XpYpZp$numStr5".tif" -format exr16 tmpHEVC-CL.exr
+	   StEM-2020CLPQ1k-PQ1kHEVC/XpYpZp$numStr".tif" -format exr16 tmpHEVC-CL.exr
 	# self compare HEVC to HEVC
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmpHEVC-CL.exr tmpHEVC-CL.exr\
 	    2>&1 > log/self$numStr"-HEVC-CL.txt"
@@ -139,7 +138,7 @@ for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 	# convert 709VR HEVC to OCES linear
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_NOTC.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/ACES-2-XYZ.ctl -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   StEM-709VR-8b-HEVC/XpYpZp$numStr5".tif" -format exr16 tmp709VR-HEVC-XYZOCES.exr	
+	   StEM-709VR-8b-HEVC/XpYpZp$numStr".tif" -format exr16 tmp709VR-HEVC-XYZOCES.exr	
   
 	# compare 709VR to decoded HEVC as XYZ OCES
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp709VR-HEVC-XYZOCES.exr tmp709VR-HEVC-XYZOCES.exr \
