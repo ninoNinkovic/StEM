@@ -2,7 +2,9 @@ Handful of testing scripts:
 
 StEM-2020PQ1k.sh:  Converts from HDR graded StEM into a PQ container with Rec2020 color range and 1,000 nit range and writes 10bit data into a yuv file.
 
-encode2020PQ1k-10b.sh: x265 encodes the yuv file from the above script.
+StEM-2020CL-PQ1k.sh: Same as above but for Rec 2020 Constant Luminance
+
+encode2020PQ1k-10b.sh: x265 encodes the yuv file from the above scripts.
 
 
 StEM-709VR.sh:  Converts from HDR graded StEM to 709 SDR material and writes 10 bit data into a yuv file.

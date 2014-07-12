@@ -31,7 +31,7 @@ if [ $c1 -le $CMax ]; then
 
 
 (ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ10k-2-XYZ.ctl -ctl $EDRHOME/ACES/CTL/XYZ2ACES.ctl\
-     -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_NOTC.ctl -param1 MAX 200.0 $filename  -format tiff16 "StEM-709VR/XpYpZp"$numStr".tiff" ) &
+     -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_NOTC.ctl -param1 MAX 250.0 $filename  -format tiff16 "StEM-709VR/XpYpZp"$numStr".tiff" ) &
 
 
 c1=$[$c1 +1]
@@ -47,6 +47,16 @@ c1=0
 fi
 
 done
+
+
+# make sure all jobs finished (might be a couple still running at end of loop)
+for job in `jobs -p`
+do
+echo $job
+wait $job 
+done
+
+
 
 for filename in StEM-709VR/Xp*tiff ; do
 

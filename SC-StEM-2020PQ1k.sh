@@ -66,13 +66,23 @@ mv tifXYZ StEM-709VR-8b-HEVC
 # show decoded file sizes
 ls -lt *yuv
 sleep 3
+num=0
 
 for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 #for filename in PQ/StEM*XYZ/000[0-1][0-1][0-9].tif ; do
 #for filename in StEM-2020PQ1k-RTYUV/* ; do
 
+     numMod=$(($num % 30))
+	 if [ "$numMod" -ne 0 ]
+	 then
+	   num=$(($num + 1))
+	   continue  # Skip entire rest of loop.
+	 fi	
+
+
     numStr=`printf "%06d" $num`
     num=`expr $num + 1`
+    
     
     # write EXR from source
     ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ10k-2-XYZ.ctl -ctl \
@@ -145,40 +155,36 @@ for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 	    2>&1 > log/selfHEVC$numStr"-709VRHEVC-XYZOCES.txt"		    	   
 	   
 	# compare 709VR to 2020PQ1k decoded HEVC to 709 as OCES
-	ctlrender -force -ctl $EDRHOME/ACES/CTL/XYZ2ACES.ctl \
+	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQnk2020-2-OCES.ctl -param1 1000.0 \
 	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_NOTC.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_NOTC.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/ACES-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   tmpHEVC.exr -format exr16 tmpHEVCas709.exr	
+	   StEM-2020PQ1k-PQ1kHEVC/XpYpZp$numStr".tif" -format exr16 tmpHEVCas709.exr	
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmpHEVCas709.exr tmp709VR-HEVC-XYZOCES.exr \
 	    2>&1 > log/HEVC$numStr"-2020PQ1kHEVC-709VRHEVC-XYZOCES.txt"	
 	# for 2020CL
-	ctlrender -force -ctl $EDRHOME/ACES/CTL/XYZ2ACES.ctl \
+	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQnk2020-2-OCES.ctl -param1 1000.0 \
 	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_NOTC.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_NOTC.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/ACES-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
-	   tmpHEVC-CL.exr -format exr16 tmpHEVC-CLas709.exr	
+	   StEM-2020CLPQ1k-PQ1kHEVC/XpYpZp$numStr".tif"  -format exr16 tmpHEVC-CLas709.exr	
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmpHEVC-CLas709.exr tmp709VR-HEVC-XYZOCES.exr \
 	    2>&1 > log/HEVC$numStr"-2020CLPQ1kHEVC-709VRHEVC-XYZOCES.txt"		
 	    
 	# compare SRC to 444
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp.exr tmp444.exr \
-	    2>&1 > log/self$numStr"-SRC-444.txt"
+	    2>&1 > log/$numStr"-SRC-444.txt"
 	    	    
 	# compare 444 to YUV
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp444.exr tmpRTYUV.exr \
-	    2>&1 > log/self$numStr"-444-YUV.txt"
+	    2>&1 > log/$numStr"-444-YUV.txt"
 	#2020 CL
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp444.exr tmpRTYUVCL.exr \
-	    2>&1 > log/self$numStr"-444-YUV-CL.txt"
+	    2>&1 > log/$numStr"-444-YUV-CL.txt"
 	    	
 	    	
-	 if [ "$num" -gt 1 ]
-	 then
-	   break  # Skip entire rest of loop.
-	 fi	    	
 	    	
 done
 

@@ -4,7 +4,8 @@ set -x
 
 #mkdir StEM-2020PQ1k
 #rm -fv StEM-2020PQ1k/*
-
+rm -rfv log
+mkdir log
 
 # find all exr files
 c1=0
@@ -78,9 +79,19 @@ mkdir tifXYZ
 rm -rfv 2020-PQ1k-10b-YUVRT
 $EDRHOME/Tools/YUV/yuv2tif 2020-PQ1k-10b.yuv B10 2020 HD1920 -f 5 -I
 mv tifXYZ 2020-PQ1k-10b-YUVRT
-
+num=0
 # sigma compare input to output
 for filename in 2020-PQ1k-10b-YUVRT/Xp*tif ; do
+
+     numMod=$(($num % 30))
+	 if [ "$numMod" -ne 0 ]
+	 then
+	   num=$(($num + 1))
+	   continue  # Skip entire rest of loop.
+	 fi	
+
+
+    num=$(($num + 1))
 
  # file name w/extension e.g. 000111.tiff
  cFile="${filename##*/}"
@@ -100,6 +111,12 @@ for filename in 2020-PQ1k-10b-YUVRT/Xp*tif ; do
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
 	   StEM-2020PQ1k/$cFile".tiff" -format exr16 tmp444asXYZ.exr	   
+	# sigma compare 444 to 444 as XYZ and 
+	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp444asXYZ.exr tmp444asXYZ.exr\
+	    2>&1 > log/$cFile"-444-444-asXYZ.txt" 
+	# sigma compare YUV to YUV as XYZ and 
+	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmpRTYUVasXYZ.exr tmpRTYUVasXYZ.exr\
+	    2>&1 > log/$cFile"-YUV-YUV-asXYZ.txt" 	    
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ1k2020-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/XYZ-2-2020.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
