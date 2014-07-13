@@ -108,6 +108,7 @@ for filename in 2020CL-PQ1k-10b-YUVRT/Xp*tif ; do
 	 if [ "$numMod" -ne 0 ]
 	 then
 	   num=$(($num + 1))
+	   rm -rf $filename
 	   continue  # Skip entire rest of loop.
 	 fi	
 

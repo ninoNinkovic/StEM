@@ -77,7 +77,7 @@ rm -rfv log
 mkdir log
 mkdir tifXYZ
 rm -rfv 2020-PQ1k-10b-YUVRT
-$EDRHOME/Tools/YUV/yuv2tif 2020-PQ1k-10b.yuv B10 2020 HD1920 -f 5 -I
+$EDRHOME/Tools/YUV/yuv2tif 2020-PQ1k-10b.yuv B10 2020 HD1920 -f 150 -I
 mv tifXYZ 2020-PQ1k-10b-YUVRT
 num=0
 # sigma compare input to output
@@ -87,6 +87,7 @@ for filename in 2020-PQ1k-10b-YUVRT/Xp*tif ; do
 	 if [ "$numMod" -ne 0 ]
 	 then
 	   num=$(($num + 1))
+	   rm -fv $filename
 	   continue  # Skip entire rest of loop.
 	 fi	
 
