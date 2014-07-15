@@ -8,11 +8,12 @@ rm -fv StEM-709VR/*
 
 # find all exr files
 c1=0
-CMax=3
+CMax=4
 num=0
 rm -fv YDzDx.yuv
 
-for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
+#for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
+for filename in PQ/StEM*XYZ/*.tif ; do
 
 
  # file name w/extension e.g. 000111.tiff

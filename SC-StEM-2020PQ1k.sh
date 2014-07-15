@@ -68,7 +68,8 @@ ls -lt *yuv
 sleep 3
 num=0
 
-for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
+for filename in PQ/StEM*XYZ/*.tif ; do
+#for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 #for filename in PQ/StEM*XYZ/000[0-1][0-1][0-9].tif ; do
 #for filename in StEM-2020PQ1k-RTYUV/* ; do
 

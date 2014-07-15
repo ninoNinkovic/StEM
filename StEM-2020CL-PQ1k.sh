@@ -9,12 +9,12 @@ mkdir logCL
 
 # find all exr files
 c1=0
-CMax=3
+CMax=4
 num=0
 rm -fv YDzDx.yuv
 
-
-for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
+for filename in PQ/StEM*XYZ/*.tif ; do
+#for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
 #for filename in PQ/StEM*XYZ/000[1][1][9].tif ; do
 #for filename in $EDRDATA/EXR/OBLIVION/OBLXYZ/Xp*000004*tiff ; do
 
@@ -98,7 +98,7 @@ ls -l *yuv
 # next scripts that perform encoding and final sigma_compare
 mkdir tifXYZ
 rm -rfv 2020CL-PQ1k-10b-YUVRT
-$EDRHOME/Tools/YUV/yuv2tif 2020CL-PQ1k-10b.yuv B10 2020C G1k HD1920 -f 150 -I
+$EDRHOME/Tools/YUV/yuv2tif 2020CL-PQ1k-10b.yuv B10 2020C G1k HD1920  -I
 mv tifXYZ 2020CL-PQ1k-10b-YUVRT
 num=0
 # sigma compare input to output

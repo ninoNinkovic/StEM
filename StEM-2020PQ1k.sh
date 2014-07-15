@@ -9,11 +9,12 @@ mkdir log
 
 # find all exr files
 c1=0
-CMax=3
+CMax=4
 num=0
 rm -fv YDzDx.yuv
 
-for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
+#for filename in PQ/StEM*XYZ/000[1][0-2][0-9].tif ; do
+for filename in PQ/StEM*XYZ/*.tif ; do
 
  # file name w/extension e.g. 000111.tiff
  cFile="${filename##*/}"
@@ -77,7 +78,7 @@ rm -rfv log
 mkdir log
 mkdir tifXYZ
 rm -rfv 2020-PQ1k-10b-YUVRT
-$EDRHOME/Tools/YUV/yuv2tif 2020-PQ1k-10b.yuv B10 2020 HD1920 -f 150 -I
+$EDRHOME/Tools/YUV/yuv2tif 2020-PQ1k-10b.yuv B10 2020 HD1920  -I
 mv tifXYZ 2020-PQ1k-10b-YUVRT
 num=0
 # sigma compare input to output
