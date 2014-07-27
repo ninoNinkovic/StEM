@@ -140,14 +140,14 @@ for filename in PQ/StEM*XYZ/*.tif ; do
 	    2>&1 > log/self$numStr"-YUV2HEVC-CL.txt"		    
 	    
 	# compare 709VR 444 to self
-	ctlrender -force -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_NOTC.ctl -param1 MAX 200.0 \
+	ctlrender -force -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_MAX.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/ACES-2-XYZ.ctl -ctl $EDRHOME/ACES/CTL/nullA.ctl \
 	   "StEM-709VR/XpYpZp"$numStr".tiff" -format exr16 tmp709VR-444-XYZOCES.exr
 	$EDRHOME/Tools/demos/sc/sigma_compare_PQ tmp709VR-444-XYZOCES.exr tmp709VR-444-XYZOCES.exr \
 	    2>&1 > log/self$numStr"-709VR444-XYZOCES.txt"		
 
 	# convert 709VR HEVC to OCES linear
-	ctlrender -force -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_NOTC.ctl -param1 MAX 200.0 \
+	ctlrender -force -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_MAX.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/ACES-2-XYZ.ctl -ctl $EDRHOME/ACES/CTL/nullA.ctl \
 	   StEM-709VR-8b-HEVC/XpYpZp$numStr".tif" -format exr16 tmp709VR-HEVC-XYZOCES.exr	
   
@@ -157,8 +157,8 @@ for filename in PQ/StEM*XYZ/*.tif ; do
 	   
 	# compare 709VR to 2020PQ1k decoded HEVC to 709 as OCES
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQnk2020-2-OCES.ctl -param1 1000.0 \
-	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_NOTC.ctl -param1 MAX 200.0 \
-	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_NOTC.ctl -param1 MAX 200.0 \
+	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_MAX.ctl -param1 MAX 200.0 \
+	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_MAX.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/ACES-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
 	   StEM-2020PQ1k-PQ1kHEVC/XpYpZp$numStr".tif" -format exr16 tmpHEVCas709.exr	
@@ -166,8 +166,8 @@ for filename in PQ/StEM*XYZ/*.tif ; do
 	    2>&1 > log/HEVC$numStr"-2020PQ1kHEVC-709VRHEVC-XYZOCES.txt"	
 	# for 2020CL
 	ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQnk2020-2-OCES.ctl -param1 1000.0 \
-	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_NOTC.ctl -param1 MAX 200.0 \
-	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_NOTC.ctl -param1 MAX 200.0 \
+	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_MAX.ctl -param1 MAX 200.0 \
+	   -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_inv_MAX.ctl -param1 MAX 200.0 \
 	   -ctl $EDRHOME/ACES/CTL/ACES-2-XYZ.ctl \
 	   -ctl $EDRHOME/ACES/CTL/nullA.ctl \
 	   StEM-2020CLPQ1k-PQ1kHEVC/XpYpZp$numStr".tif"  -format exr16 tmpHEVC-CLas709.exr	

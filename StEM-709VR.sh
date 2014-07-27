@@ -32,7 +32,7 @@ if [ $c1 -le $CMax ]; then
 
 
 (ctlrender -force -ctl $EDRHOME/ACES/CTL/INVPQ10k-2-XYZ.ctl -ctl $EDRHOME/ACES/CTL/XYZ2ACES.ctl\
-     -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_NOTC.ctl -param1 MAX 150.0 $filename  -format tiff16 "StEM-709VR/XpYpZp"$numStr".tiff" ) &
+     -ctl $EDRHOME/ACES/CTL/odt_rec709_smpte_MAX.ctl -param1 MAX 150.0 $filename  -format tiff16 "StEM-709VR/XpYpZp"$numStr".tiff" ) &
 
 
 c1=$[$c1 +1]
